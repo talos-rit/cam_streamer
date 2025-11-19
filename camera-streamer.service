@@ -3,10 +3,6 @@ Description=Camera Streamer Service
 After=network.target
 
 [Service]
-Type=simple
-User=camera-streamer
-Group=camera-streamer
-WorkingDirectory=/opt/camera-streamer
 ExecStart=/opt/camera-streamer/scripts/stream_camera.sh
 Restart=always
 RestartSec=5
@@ -17,13 +13,6 @@ StandardError=journal
 Environment=CAMERA_DEVICE=/dev/video0
 Environment=RTSP_PORT=8554
 Environment=STREAM_NAME=camera
-
-# Security settings
-NoNewPrivileges=true
-PrivateTmp=true
-ProtectSystem=strict
-ProtectHome=true
-ReadWritePaths=/opt/camera-streamer
 
 [Install]
 WantedBy=multi-user.target
