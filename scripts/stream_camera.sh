@@ -15,5 +15,6 @@ fi
 
 # Start FFmpeg RTSP server
 ffmpeg -f v4l2 -i "$CAMERA_DEVICE" \
-    -vcodec h264_v4l2m2m -preset ultrafast -tune zerolatency \
-    -f rtsp rtsp://localhost:$RTSP_PORT/$STREAM_NAME
+    -input_format yuyv422 -video_size 640x480 -framerate 30 \
+    -pix_fmt yuv420p -c:v libx264 -preset ultrafast -tune zerolatency \
+    -f rtsp -rtsp_transport tcp rtsp://localhost:$RTSP_PORT/$STREAM_NAME
