@@ -38,6 +38,24 @@ cap = cv2.VideoCapture('rtsp://localhost:8554/camera')
 ret, frame = cap.read()
 ```
 
+**Configuration** (environment variables read by `scripts/stream_camera.sh`):
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `CAMERA_DEVICE` | `/dev/video0` | V4L2 device to capture from |
+| `RTSP_PORT` | `8554` | MediaMTX RTSP port on this host |
+| `STREAM_NAME` | `camera` | RTSP path: `rtsp://<host>:8554/<STREAM_NAME>` |
+| `INPUT_FORMAT` | `yuyv422` | Capture pixel format (`mjpeg` allows 720p at 30 fps on most webcams) |
+| `VIDEO_SIZE` | `640x480` | Capture resolution |
+| `VIDEO_FPS` | `30` | Capture frame rate |
+| `OUTPUT_FPS` | *(unset)* | Publish at a lower rate than captured, e.g. `10` (drops frames before encoding) |
+| `KEYFRAME_INTERVAL` | output fps | Frames between keyframes (`-g`) |
+| `VIDEO_ENCODER` | `h264_v4l2m2m` | `h264_v4l2m2m` (Pi hardware) or `libx264` (software) |
+| `VIDEO_BITRATE` | `3M` | Target bitrate |
+
+The Talos container stack (Gaia) runs this script with
+`INPUT_FORMAT=mjpeg VIDEO_SIZE=1280x720 VIDEO_FPS=30 OUTPUT_FPS=10`.
+
 **Service Management**:
 
 - MediaMTX status: `sudo systemctl status mediamtx`
